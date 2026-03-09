@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" style="background-color: #150c0b;"><head><title>The Bazaar</title>
+    <!--Blazor:{"type":"webassembly","key":{"locationHash":"77D12F14A8105320B1AAED6AE7E689DA0EC4483270A645E84079EAA0FFDF550D:6","formattedComponentKey":""},"assembly":"Microsoft.AspNetCore.Components.Web","typeName":"Microsoft.AspNetCore.Components.Web.HeadOutlet","parameterDefinitions":"W10=","parameterValues":"W10="}-->
+    <meta name="description" content="Welcome to The Bazaar — the first Hero-Builder for PC and Mac. By Tempo.">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+
+    <meta property="og:title" content="The Bazaar">
+    <meta property="og:description" content="Welcome to The Bazaar — the first Hero-Builder for PC and Mac. By Tempo.">
+    <meta property="og:image" content="https://playthebazaar-cdn.azureedge.net/images/playthebazaar_thumbnail.png">
+
+    <meta name="twitter:card" content="https://playthebazaar-cdn.azureedge.net/images/playthebazaar_thumbnail.png">
+    <meta name="twitter:title" content="The Bazaar">
+    <meta name="twitter:description" content="Welcome to The Bazaar — the first Hero-Builder for PC and Mac. By Tempo.">
+    <meta name="twitter:image" content="https://playthebazaar-cdn.azureedge.net/images/playthebazaar_thumbnail.png">
+
+    <base href="/">
+    <link rel="icon" type="image/x-icon" href="favicon.ico?v=1.1">
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/animations.css?v=1.5">
+    <link rel="stylesheet" href="css/animations.fireworks.css?v=1.0">
+    <link rel="stylesheet" href="css/app.css?v=1.58">
+    <link rel="stylesheet" href="BazaarWeb.Server.styles.css?v=1.58">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <script src="https://consent.cookiefirst.com/sites/playthebazaar.com-af0a8a73-38ac-43bc-8070-2d1e2af3de6a/consent.js"></script>
+    <script src="https://js.stripe.com/v3/"></script></head>
+
+<body><!--Blazor:{"type":"webassembly","key":{"locationHash":"C58FB2F6A6D4E9DC159F461EB249A9829DD82574F9ED6850BAC731C20198BF5C:10","formattedComponentKey":""},"assembly":"BazaarWeb.Client","typeName":"BazaarWeb.Client.Routes","parameterDefinitions":"W10=","parameterValues":"W10="}-->
+
+    <div id="loading-screen"><div class="loading-container-0"><style>
+        .loading-container-0 {
+            background-color: #150c0b;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .loading-gem-0 {
+            animation: pulse 1.8s ease-out infinite, fade 1.8s ease-out infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.9);
+            }
+
+            50% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(0.9);
+            }
+        }
+
+        @keyframes fade {
+            0% {
+                opacity: 0.2;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.2;
+            }
+        }
+    </style>
+    <img class="loading-gem-0" src="/images/iconLogo_64x64.webp" width="50" height="50" alt>
+    <div style="color: white; font-size: 24px;"> Loading...</div></div></div>
+    <script>
+        function hideLoadingScreen() {
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                loadingScreen.style.display = 'none';
+            }
+        }
+    </script>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="/" class="reload"> Reload</a>
+        <p class="dismiss"> 🗙</p></div>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-38NP3RCG00"></script>
+    <script type="text/plain" data-cookiefirst-script="google_analytics2">
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('consent', 'default', {
+            ad_storage: "denied",
+            analytics_storage: "denied",
+            functionality_storage: "denied",
+            personalization_storage: "denied",
+            'region': ['FR', 'IT', 'AT', 'DK', 'NO']
+        });
+
+        gtag('js', new Date());
+        gtag('config', 'G-38NP3RCG00', {
+            page_path: window.location.pathname,
+            anonymize_ip: true
+        });
+    </script>
+    <script src="js/gsap.min.js?v=1.1"></script>
+    <script src="js/domUtils.js?v=1.30"></script>
+    <script src="js/carousel.js?v=1.1"></script>
+    <script src="js/clipboard.js?v=1.0"></script>
+    
+    <script src="js/spine-webgl.js?v=1.0"></script>
+    <script src="js/intersectionObserver.js?v=1.1"></script>
+    <script src="js/recaptcha.js?v=1.2"></script>
+    <script src="js/stripeCheckout.js?v=1.0"></script>
+    <script src="js/stripeUtils.js?v=1.0"></script>
+    <script src="js/app.js?v=1.0"></script>
+
+    
+    <script>
+        window.__ow = window.__ow || {};
+        window.__ow.organizationId = "d617e11b-f353-4790-9c05-588fc644f90d";
+        window.__ow.integration_name = "manual_settings";
+        window.__ow.product_name = "openwidget";
+        ; (function (n, t, c) { function i(n) { return e._h ? e._h.apply(null, n) : e._q.push(n) } var e = { _q: [], _h: null, _v: "2.0", on: function () { i(["on", c.call(arguments)]) }, once: function () { i(["once", c.call(arguments)]) }, off: function () { i(["off", c.call(arguments)]) }, get: function () { if (!e._h) throw new Error("[OpenWidget] You can't use getters before load."); return i(["get", c.call(arguments)]) }, call: function () { i(["call", c.call(arguments)]) }, init: function () { var n = t.createElement("script"); n.async = !0, n.type = "text/javascript", n.src = "https://cdn.openwidget.com/openwidget.js", t.head.appendChild(n) } }; !n.__ow.asyncInit && e.init(), n.OpenWidget = n.OpenWidget || e }(window, document, [].slice))
+    </script>
+    <noscript>You need to <a href="https://www.openwidget.com/enable-javascript" rel="noopener nofollow">enable JavaScript</a> to use the communication tool powered by <a href="https://www.openwidget.com/" rel="noopener nofollow" target="_blank">OpenWidget</a></noscript>
+    
+
+    <script src="_framework/blazor.web.js?v=8.0.8"></script></body></html><!--Blazor-WebAssembly-Component-State:eyJfX2ludGVybmFsX19BbnRpZm9yZ2VyeVJlcXVlc3RUb2tlbiI6ImV5SjJZV3gxWlNJNklrTm1SRW80VEhaRGFWcEROa2xDVmtkeGExaG5aMDAzTFVOa1ZUZDVMVmh0VjJKNVluTXdkM3BTYjNKS2JGWkdSVjh5Y0VKNGVIUkxaalY0UkZwb2NsOVRhVmRvWlc4d1RIWk5RalJtYzFsNlZrNDFVVXBaWW1kUWFEbEtZelJFYnpaVExXTjJWbXAyUnpOTk1VSlFVVVZVUzBwR1dubG9YM1ZHZEZkWU5FTmxWelZsVm1SSk5GWm1Oa05rUWxsVWIxRkRSMVJIWWtKUmJGZDNJaXdpWm05eWJVWnBaV3hrVG1GdFpTSTZJbDlmVW1WeGRXVnpkRlpsY21sbWFXTmhkR2x2YmxSdmEyVnVJbjA9In0=-->

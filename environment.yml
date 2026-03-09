@@ -1,0 +1,8 @@
+name: nexen-profiler
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - -r user_profiler/requirements.txt
