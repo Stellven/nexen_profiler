@@ -239,9 +239,9 @@ class PipelineRunner:
                 end = tf.get("end", "unknown")
                 confidence = item.get("confidence")
                 if confidence is not None:
-                    lines.append(f"{idx}. **{label}** (confidence: {confidence})")
+                    lines.append(f"{idx}. **{label}** (confidence: {confidence})<br>")
                 else:
-                    lines.append(f"{idx}. **{label}**")
+                    lines.append(f"{idx}. **{label}**<br>")
                 lines.append(f"• {t['description']}: {desc or t['none']}<br>")
                 lines.append(f"• {t['time_frame']}: {start} → {end}<br>")
                 evidence = item.get("evidence") or {}

@@ -6,13 +6,20 @@ from typing import Dict
 _ACTION_TO_INTENT = {
     "learn": "learn",
     "summarize": "learn",
-    "implement": "build",
-    "debug": "build",
+    "research": "learn",
+    "practice": "learn",
+    "analyze": "analyze",
     "compare": "decide",
     "decide": "decide",
-    "monitor": "monitor",
+    "plan": "manage",
+    "organize": "manage",
+    "monitor": "operate",
+    "maintain": "operate",
+    "implement": "build",
+    "create": "build",
+    "debug": "build",
     "communicate": "communicate",
-    "plan": "communicate",
+    "collaborate": "communicate",
 }
 
 
