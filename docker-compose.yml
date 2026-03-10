@@ -12,14 +12,14 @@ services:
       - pgdata:/var/lib/postgresql/data
   api:
     build:
-      context: ./user_profiler
+      context: .
       dockerfile: docker/Dockerfile.api
     environment:
       DB_URL: postgresql+psycopg2://profiler:profiler@postgres:5432/profiler
       USER_ID: default_user
       DATA_DIR: /data/data
     volumes:
-      - ./user_profiler:/app
+      - ./:/app
       - ./:/data
     ports:
       - "8000:8000"
@@ -27,14 +27,14 @@ services:
       - postgres
   worker:
     build:
-      context: ./user_profiler
+      context: .
       dockerfile: docker/Dockerfile.worker
     environment:
       DB_URL: postgresql+psycopg2://profiler:profiler@postgres:5432/profiler
       USER_ID: default_user
       DATA_DIR: /data/data
     volumes:
-      - ./user_profiler:/app
+      - ./:/app
       - ./:/data
     depends_on:
       - postgres

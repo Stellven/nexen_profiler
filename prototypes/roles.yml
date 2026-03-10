@@ -1,0 +1,43 @@
+roles:
+  - role_id: software_engineer
+    ontology_path: engineering/software
+    expected:
+      actions: [implement, debug, plan]
+      artifacts: [code, notebook]
+      entities: [python, git]
+      topics: [backend, api]
+  - role_id: data_scientist
+    ontology_path: data/science
+    expected:
+      actions: [summarize, compare, implement]
+      artifacts: [notebook, code]
+      entities: [pandas, numpy]
+      topics: [analysis, experiment]
+  - role_id: researcher
+    ontology_path: research/applied
+    expected:
+      actions: [learn, summarize]
+      artifacts: [pdf, webpage]
+      entities: []
+      topics: [paper, study]
+  - role_id: product_manager
+    ontology_path: product/management
+    expected:
+      actions: [plan, decide, communicate]
+      artifacts: [note]
+      entities: []
+      topics: [roadmap, feature]
+  - role_id: analyst
+    ontology_path: analysis/strategy
+    expected:
+      actions: [compare, decide, summarize]
+      artifacts: [note]
+      entities: []
+      topics: [market, trend]
+  - role_id: technical_writer
+    ontology_path: communication/writing
+    expected:
+      actions: [summarize, communicate]
+      artifacts: [note]
+      entities: []
+      topics: [documentation, guide]

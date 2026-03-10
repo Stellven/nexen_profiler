@@ -1,9 +1,0 @@
-entities:
-  tools:
-    - python
-    - pandas
-    - numpy
-    - sqlalchemy
-    - fastapi
-    - postgres
-    - pgvector
