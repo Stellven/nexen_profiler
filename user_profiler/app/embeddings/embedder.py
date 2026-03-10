@@ -36,6 +36,7 @@ class GeminiEmbedder(Embedder):
     def embed(self, texts: List[str]) -> EmbeddingResult:
         client = self._genai.Client(api_key=self.api_key) if self.api_key else self._genai.Client()
         vectors: List[List[float]] = []
+        expected_dim = int(os.getenv("EMBEDDING_DIM", "768"))
         for i in range(0, len(texts), self.batch_size):
             batch = texts[i : i + self.batch_size]
             result = client.models.embed_content(model=self.model, contents=batch)
@@ -49,6 +50,12 @@ class GeminiEmbedder(Embedder):
                 if values is None and isinstance(embedding, list):
                     values = embedding
                 if values:
+                    if expected_dim and len(values) != expected_dim:
+                        raise RuntimeError(
+                            "Embedding dimension mismatch: "
+                            f"model returned {len(values)} dims but EMBEDDING_DIM is {expected_dim}. "
+                            "Set EMBEDDING_DIM to match the model output and recreate the database."
+                        )
                     vectors.append([float(x) for x in values])
         return EmbeddingResult(embeddings=vectors, model_name=self.model)
 

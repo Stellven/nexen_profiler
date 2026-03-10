@@ -31,11 +31,16 @@ Environment variables:
 - `DATA_DIR`: directory holding the `write/read/browse` files (or flat directory).
 - `DB_URL`: SQLAlchemy DB URL (default: `sqlite:///user_profiler.db`).
 - `USER_ID`: profile key (default: `default_user`).
-- `EMBEDDING_DIM`: embedding vector size for storage (default: `768`).
+- `EMBEDDING_DIM`: embedding vector size for storage (default: `768`). Must match the embedding model output size.
 - `GEMINI_EMBED_MODEL`: Gemini embedding model name (default: `gemini-embedding-001`).
 - `GEMINI_EMBED_BATCH`: embedding batch size (default: `100`).
 - `PROFILE_LANG`: output language for portrait text (`en` or `zh`, default: `en`).
 - `PROFILE_MD_PATH`: output path for profile markdown. If it is a directory, a timestamped filename is created inside it. If it is a `.md` file, the timestamp is inserted before the extension.
+- `ACTION_SIGNAL_MODE`: action extraction mode (`rules` or `llm`, default: `rules`).
+- `ACTION_LLM_MIN_CONF`: minimum confidence for LLM actions (default: `0.45`).
+- `ACTION_LLM_MAX_CHARS`: max characters sent to LLM per event (default: `2400`).
+- `ACTION_LLM_MAX_LABELS`: max actions returned by LLM per event (default: `4`).
+- `INTENT_MODE`: project intent inference mode (`rules` or `llm`, default: `rules`).
 
 ## Docker (Postgres + pgvector)
 
@@ -53,3 +58,5 @@ The API will be available at `http://localhost:8000`:
 - LLM calls are handled via Gemini in `app/llm/gemini_client.py`.
 - Embeddings use Gemini (google-genai).
 - Signals and inferences enforce evidence links. Inferences without evidence are dropped.
+- Switching action extraction modes does not backfill existing signals. To recompute actions, clear the database or use a new `USER_ID`.
+- If you change `EMBEDDING_DIM`, delete the SQLite DB (or use a new `DB_URL`) before rerunning so the schema matches.
