@@ -20,9 +20,7 @@ from app.profile.assemble import assemble_profile, attach_default_signals, filte
 from app.projects.cluster_projects import cluster_sessions
 from app.projects.sessionize import sessionize
 from app.projects.summarize_intent import infer_intent
-from app.projects.summarize_intent_llm import infer_intent_llm
 from app.signals.actions import action_signals
-from app.signals.actions_llm import action_signals_llm
 from app.signals.artifacts import artifact_signals
 from app.signals.entities import entity_signals
 from app.signals.topics import TopicAssigner, topic_signal
@@ -426,9 +424,6 @@ class PipelineRunner:
 
     def _ensure_signals(self, session: Session, events: List[Dict], chunks: List[Chunk]) -> List[SignalData]:
         signals: List[SignalData] = []
-        action_mode = (os.getenv("ACTION_SIGNAL_MODE") or "rules").lower()
-        if action_mode not in {"rules", "llm"}:
-            action_mode = "rules"
         chunks_by_event = {}
         for chunk in chunks:
             chunks_by_event.setdefault(chunk.event_id, []).append(chunk)
@@ -437,12 +432,8 @@ class PipelineRunner:
                 continue
             signals.extend(artifact_signals(event["event_id"], event["content_type"]))
             signals.extend(entity_signals(event["event_id"], event["uri"], event["content_text"]))
-            if action_mode == "llm":
-                signals.extend(action_signals_llm(event, model=self.llm_model))
-            else:
-                for chunk in chunks_by_event.get(event["event_id"], []):
-                    signals.extend(action_signals(event["event_id"], chunk.chunk_id, chunk.chunk_text))
             for chunk in chunks_by_event.get(event["event_id"], []):
+                signals.extend(action_signals(event["event_id"], chunk.chunk_id, chunk.chunk_text))
                 embedding = session.get(Embedding, chunk.chunk_id)
                 if embedding is not None:
                     topic = self.topic_assigner.assign(list(embedding.embedding), chunk.chunk_text)
@@ -503,18 +494,12 @@ class PipelineRunner:
             session_entities.append(entities)
         projects = cluster_sessions(sessions, session_entities)
         now = now_utc()
-        intent_mode = (os.getenv("INTENT_MODE") or "rules").lower()
-        if intent_mode not in {"rules", "llm"}:
-            intent_mode = "rules"
         for project in projects:
             action_counts: Dict[str, int] = {}
             for eid in project.event_ids:
                 for action, count in action_counts_by_event.get(eid, {}).items():
                     action_counts[action] = action_counts.get(action, 0) + count
-            if intent_mode == "llm":
-                project.intent = infer_intent_llm(project, action_counts, model=self.llm_model)
-            else:
-                project.intent = infer_intent(action_counts)
+            project.intent = infer_intent(action_counts)
             days_since = (now - project.last_seen).days
             if days_since <= 14:
                 project.status = "active"
