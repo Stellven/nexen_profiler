@@ -1,0 +1,16 @@
+# Local environment
+.env
+
+# Python caches
+__pycache__/
+*.py[cod]
+
+# Test/tool caches
+.pytest_cache/
+
+# Generated local outputs
+profile_*.md
+outputs/
+
+# Local databases
+*.db

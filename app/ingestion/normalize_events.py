@@ -33,6 +33,22 @@ class EventData:
     content_hash: str
 
 
+def _clean_string(value: Optional[str]) -> Optional[str]:
+    if value is None:
+        return None
+    return value.replace("\x00", "")
+
+
+def _clean_value(value):
+    if isinstance(value, str):
+        return _clean_string(value)
+    if isinstance(value, list):
+        return [_clean_value(item) for item in value]
+    if isinstance(value, dict):
+        return {key: _clean_value(item) for key, item in value.items()}
+    return value
+
+
 def _hash_text(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8", errors="ignore")).hexdigest()
 
@@ -65,25 +81,25 @@ def normalize_events(config: PipelineConfig, raw_inputs: List[RawInput]) -> List
 
     for raw in raw_inputs:
         parsed = _parse_file(raw)
-        content_text = parsed.get("text", "") or ""
+        content_text = _clean_string(parsed.get("text", "") or "") or ""
         content_hash = _hash_text(content_text)
         event_id = _event_id(raw.source, str(raw.path), content_hash)
         timestamp = _timestamp_from_mtime(raw.path)
-        metadata = parsed.get("metadata", {})
+        metadata = _clean_value(parsed.get("metadata", {}))
         parse_error = parsed.get("parse_error")
         if parse_error:
             metadata = dict(metadata)
-            metadata["parse_error"] = parse_error
+            metadata["parse_error"] = _clean_string(parse_error)
         events.append(
             EventData(
                 event_id=event_id,
-                user_id=config.user_id,
-                source=raw.source,
+                user_id=_clean_string(config.user_id) or config.user_id,
+                source=_clean_string(raw.source) or raw.source,
                 timestamp=timestamp,
                 timestamp_quality="mtime",
-                uri=str(raw.path),
-                title=parsed.get("title"),
-                content_type=raw.content_type,
+                uri=_clean_string(str(raw.path)) or str(raw.path),
+                title=_clean_string(parsed.get("title")),
+                content_type=_clean_string(raw.content_type) or raw.content_type,
                 content_text=content_text,
                 metadata=metadata,
                 content_hash=content_hash,
@@ -118,18 +134,19 @@ def _normalize_browse(config: PipelineConfig, path: Path) -> List[EventData]:
             except Exception:
                 continue
             url = row.get("url") or row.get("uri") or ""
-            title = row.get("title") or ""
+            url = _clean_string(url) or ""
+            title = _clean_string(row.get("title") or "") or ""
             content_text = title
             row_id = row.get("id") or row.get("order")
             row_key = f"{row_id}|{idx}" if row_id else str(idx)
             # Include timestamp and row index to avoid duplicate event_ids for repeated visits.
             content_hash = _hash_text(content_text + url + "|" + ts.isoformat() + "|" + row_key)
             event_id = _event_id("browse", url, content_hash)
-            metadata = {"dwell_time": row.get("dwell_time"), "row_id": row_id, "row_index": idx}
+            metadata = _clean_value({"dwell_time": row.get("dwell_time"), "row_id": row_id, "row_index": idx})
             results.append(
                 EventData(
                     event_id=event_id,
-                    user_id=config.user_id,
+                    user_id=_clean_string(config.user_id) or config.user_id,
                     source="browse",
                     timestamp=ts,
                     timestamp_quality="history",

@@ -24,7 +24,7 @@ except Exception:  # pragma: no cover - pgvector optional in tests
     Vector = None
 
 Base = declarative_base()
-EMBEDDING_DIM = int(os.getenv("EMBEDDING_DIM", "768"))
+EMBEDDING_DIM = int(os.getenv("EMBEDDING_DIM", "3072"))
 
 
 def _vector_column(dim: int) -> Any:

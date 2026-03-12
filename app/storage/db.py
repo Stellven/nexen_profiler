@@ -3,7 +3,7 @@ from __future__ import annotations
 from contextlib import contextmanager
 from typing import Iterator
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import sessionmaker
 
@@ -31,4 +31,7 @@ def get_session(db_url: str) -> Iterator:
 
 def init_db(db_url: str) -> None:
     engine = create_db_engine(db_url)
+    if engine.dialect.name == "postgresql":
+        with engine.begin() as conn:
+            conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
     Base.metadata.create_all(engine)

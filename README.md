@@ -139,7 +139,7 @@ Environment variables supported by the current code:
 - `DATA_DIR`: base directory holding `write/`, `read/`, and optional `browse/history.csv`. Defaults to `data/` if present, otherwise the repo root.
 - `DB_URL`: SQLAlchemy database URL. Defaults to `sqlite:///user_profiler.db`.
 - `USER_ID`: profile key. Defaults to `default_user`.
-- `EMBEDDING_DIM`: embedding vector size in storage. Defaults to `768`.
+- `EMBEDDING_DIM`: embedding vector size in storage. Defaults to `3072`.
 - `GEMINI_MODEL`: Gemini model for reasoning. If unset and the process is interactive, the pipeline prompts for one; otherwise it defaults to `gemini-2.5-flash`.
 - `GEMINI_EMBED_MODEL`: embedding model name. Defaults to `gemini-embedding-001`.
 - `GEMINI_EMBED_BATCH`: embedding batch size. Defaults to `100`.

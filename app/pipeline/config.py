@@ -15,7 +15,7 @@ class PipelineConfig:
     read_paths: List[Path]
     browse_path: Optional[Path]
     db_url: str
-    embedding_dim: int = 768
+    embedding_dim: int = 3072
     profile_language: str = "en"
     recent_days: int = 7
     session_gap_minutes: int = 120
@@ -59,6 +59,6 @@ def default_config(base_dir: Path) -> PipelineConfig:
         read_paths=read_paths,
         browse_path=browse_path,
         db_url=os.getenv("DB_URL", "sqlite:///user_profiler.db"),
-        embedding_dim=_env_int("EMBEDDING_DIM", 768),
+        embedding_dim=_env_int("EMBEDDING_DIM", 3072),
         profile_language=os.getenv("PROFILE_LANG", "zh"),
     )
