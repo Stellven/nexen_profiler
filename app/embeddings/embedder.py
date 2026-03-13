@@ -4,6 +4,8 @@ from dataclasses import dataclass
 from typing import List
 import os
 
+from app.llm.gemini_client import call_with_gemini_retry
+
 
 @dataclass
 class EmbeddingResult:
@@ -53,7 +55,11 @@ class GeminiEmbedder(Embedder):
                 f"({len(batch)} chunks, items {start}-{end} of {total}) from {self.model}"
             )
             try:
-                result = client.models.embed_content(model=self.model, contents=batch)
+                result = call_with_gemini_retry(
+                    lambda: client.models.embed_content(model=self.model, contents=batch),
+                    operation_name=f"embed_content batch {batch_idx}/{total_batches}",
+                    log=_log,
+                )
             except Exception as exc:
                 _log(f"[embed] Batch {batch_idx}/{total_batches} failed: {exc}")
                 raise
